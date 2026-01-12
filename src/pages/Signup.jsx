@@ -10,7 +10,7 @@ const Signup = () => {
                         <p className="text-grey-500 font-medium">Please enter your work email.</p>
                     </div>
 
-                    <form className="space-y-4">
+                    <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); console.log('Signup form submitted'); }}>
                         <div>
                             <label className="block text-sm font-bold text-grey-600 mb-1.5 ml-1">Work Email</label>
                             <input
@@ -20,7 +20,7 @@ const Signup = () => {
                             />
                         </div>
 
-                        <button className="w-full py-4 bg-primary hover:bg-primary-dark text-white font-bold text-lg rounded-xl transition-all shadow-lg shadow-primary/30 mt-4 transform hover:-translate-y-0.5">
+                        <button type="submit" className="w-full py-4 bg-primary hover:bg-primary-dark text-white font-bold text-lg rounded-xl transition-all shadow-lg shadow-primary/30 mt-4 transform hover:-translate-y-0.5">
                             Continue
                         </button>
                     </form>
