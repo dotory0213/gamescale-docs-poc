@@ -55,6 +55,18 @@ const Features = () => {
                         </div>
                     ))}
                 </div>
+
+                <div className="text-center mt-16">
+                    <a
+                        href="https://www.gamescale.io/ko/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-8 py-3.5 bg-white border border-grey-200 text-dark font-bold rounded-full hover:bg-grey-50 hover:border-grey-300 transition-all shadow-sm hover:shadow-md"
+                    >
+                        More Features
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                    </a>
+                </div>
             </div>
         </section>
     );
