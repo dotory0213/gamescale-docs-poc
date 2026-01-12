@@ -9,6 +9,7 @@ import Pricing from './components/Pricing';
 import Docs from './components/Docs';
 import Signup from './pages/Signup';
 import DocsPage from './pages/DocsPage';
+import SupportPage from './pages/SupportPage';
 
 // Shared Layout for consistent Navbar/Footer
 const SharedLayout = () => {
@@ -61,6 +62,7 @@ function App() {
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<LandingPage />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/support" element={<SupportPage />} />
           <Route path="/docs" element={<DocsPage />}>
             <Route path=":slug" element={<DocsPage />} />
           </Route>
