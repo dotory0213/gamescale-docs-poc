@@ -62,9 +62,7 @@ function App() {
           <Route index element={<LandingPage />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/support" element={<SupportPage />} />
-          <Route path="/docs" element={<DocsPage />}>
-            <Route path=":slug" element={<DocsPage />} />
-          </Route>
+          <Route path="/docs/*" element={<DocsPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
