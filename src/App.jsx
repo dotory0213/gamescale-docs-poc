@@ -5,7 +5,7 @@ import Hero from './components/Hero';
 import Features from './components/Features';
 import Testimonials from './components/Testimonials';
 import TrustedBy from './components/TrustedBy';
-import Pricing from './components/Pricing';
+
 import Docs from './components/Docs';
 import Signup from './pages/Signup';
 import DocsPage from './pages/DocsPage';
@@ -41,7 +41,6 @@ const LandingPage = () => (
     <Hero />
     <TrustedBy />
     <Features />
-    <Pricing />
     <Docs />
     <Testimonials />
 

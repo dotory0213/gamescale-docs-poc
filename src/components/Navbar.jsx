@@ -19,7 +19,7 @@ const Navbar = () => {
                     {/* Desktop Menu */}
                     <div className="hidden md:block">
                         <div className="ml-10 flex items-center space-x-1">
-                            {['Features', 'Partners', 'Pricing'].map((item) => (
+                            {['Features', 'Partners'].map((item) => (
                                 <a key={item} href={`/#${item.toLowerCase()}`} className="px-4 py-2 text-grey-600 hover:text-dark hover:bg-grey-100 rounded-lg text-sm font-semibold transition-all">
                                     {item}
                                 </a>
@@ -27,6 +27,12 @@ const Navbar = () => {
                             <Link to="/docs" className="px-4 py-2 text-grey-600 hover:text-dark hover:bg-grey-100 rounded-lg text-sm font-semibold transition-all">
                                 Docs
                             </Link>
+                            <a href="https://www.gamescale.io/ko/news" target="_blank" rel="noopener noreferrer" className="px-4 py-2 text-grey-600 hover:text-dark hover:bg-grey-100 rounded-lg text-sm font-semibold transition-all">
+                                Blog
+                            </a>
+                            <a href="https://forum.nexon.com/gamescaledevelopers/" target="_blank" rel="noopener noreferrer" className="px-4 py-2 text-grey-600 hover:text-dark hover:bg-grey-100 rounded-lg text-sm font-semibold transition-all">
+                                Community
+                            </a>
                         </div>
                     </div>
 
@@ -65,10 +71,12 @@ const Navbar = () => {
             {isOpen && (
                 <div className="md:hidden bg-white border-b border-grey-200">
                     <div className="px-4 pt-4 pb-6 space-y-2">
-                        {['Features', 'Partners', 'Pricing'].map((item) => (
+                        {['Features', 'Partners'].map((item) => (
                             <Link key={item} to="/" className="block px-4 py-3 text-base font-bold text-grey-600 hover:bg-grey-50 rounded-xl">{item}</Link>
                         ))}
                         <Link to="/docs" className="block px-4 py-3 text-base font-bold text-grey-600 hover:bg-grey-50 rounded-xl">Docs</Link>
+                        <a href="https://www.gamescale.io/ko/news" target="_blank" rel="noopener noreferrer" className="block px-4 py-3 text-base font-bold text-grey-600 hover:bg-grey-50 rounded-xl">Blog</a>
+                        <a href="https://forum.nexon.com/gamescaledevelopers/" target="_blank" rel="noopener noreferrer" className="block px-4 py-3 text-base font-bold text-grey-600 hover:bg-grey-50 rounded-xl">Community</a>
                         <div className="pt-4 mt-4 border-t border-grey-100">
                             <Link to="/signup" className="block w-full text-center px-4 py-3 bg-primary text-white font-bold rounded-xl shadow-toss">
                                 Sign In
