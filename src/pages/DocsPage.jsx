@@ -4,72 +4,45 @@ import DocsNavbar from '../components/DocsNavbar';
 import DocsSidebar from '../components/DocsSidebar';
 import DocsContent from '../components/DocsContent';
 import Sandbox from '../components/Sandbox';
-
-// Define sections inline
-const DOCS_SECTIONS = [
-    {
-        id: 'getting-started',
-        title: 'Getting Started',
-        path: '/docs',
-        // match: ['/docs', '/docs/intro', '/docs/arch'], // Usage removed in simplified logic
-        items: [
-            { name: 'Introduction', path: '/docs/intro' },
-            { name: 'Get Started', path: '/docs' },
-            { name: 'Architecture', path: '/docs/arch' },
-        ]
-    },
-    {
-        id: 'integrations',
-        title: 'Integrations',
-        path: '/docs/mobile',
-        // match: ['/docs/mobile', '/docs/web', '/docs/unity'],
-        items: [
-            { name: 'Mobile SDK', path: '/docs/mobile' },
-            { name: 'Web SDK', path: '/docs/web' },
-            { name: 'Unity Plugin', path: '/docs/unity' },
-        ]
-    },
-    {
-        id: 'api',
-        title: 'API Reference',
-        path: '/docs/auth',
-        // match: ['/docs/auth', '/docs/users', '/docs/match'],
-        items: [
-            { name: 'Authentication', path: '/docs/auth' },
-            { name: 'Users', path: '/docs/users' },
-            { name: 'Matchmaking', path: '/docs/match' },
-        ]
-    },
-    {
-        id: 'sandbox',
-        title: 'Sandbox',
-        path: '/docs/sandbox',
-        // match: ['/docs/sandbox'],
-        items: []
-    }
-];
+import { DOCS_SECTIONS } from '../constants/docsNav';
 
 const DocsPage = () => {
     const location = useLocation();
 
-    // SIMPLE LOGIC: check path includes
+    // Helper to check if section contains path
+    const sectionContainsPath = (section, path) => {
+        // Direct match
+        if (section.match && section.match.some(m => path === m || path.startsWith(m + '/'))) return true;
+        // Item check recursive
+        const checkItems = (items) => {
+            return items.some(item => {
+                if (item.path === path) return true;
+                if (item.items) return checkItems(item.items);
+                return false;
+            });
+        };
+        if (section.items) return checkItems(section.items);
+        return false;
+    };
+
+    // Determine Active Section
     const activeSection = useMemo(() => {
         const path = location.pathname;
-        console.log('DocsPage Logic finding section for:', path);
-
-        if (path.includes('/mobile') || path.includes('/web') || path.includes('/unity')) {
-            return DOCS_SECTIONS[1]; // integrations
-        }
-        if (path.includes('/auth') || path.includes('/users') || path.includes('/match')) {
-            return DOCS_SECTIONS[2]; // api
-        }
-        if (path.includes('/sandbox')) {
-            return DOCS_SECTIONS[3]; // sandbox
-        }
-
-        // Default
-        return DOCS_SECTIONS[0];
+        const found = DOCS_SECTIONS.find(section => sectionContainsPath(section, path));
+        return found || DOCS_SECTIONS[0];
     }, [location.pathname]);
+
+    // Determine component content based on specific path
+    const activeItemContent = useMemo(() => {
+        if (!activeSection || !activeSection.items) return null;
+        const path = location.pathname;
+        // Find exact item match
+        // Normalize path: remove trailing slash if needed
+        const normPath = path.endsWith('/') && path.length > 1 ? path.slice(0, -1) : path;
+
+        const item = activeSection.items.find(i => i.path === normPath);
+        return item ? item.content : null;
+    }, [activeSection, location.pathname]);
 
     const isSandbox = activeSection.id === 'sandbox';
 
@@ -91,18 +64,17 @@ const DocsPage = () => {
                             <Sandbox />
                         </div>
                     ) : (
-                        <DocsContent />
+                        <DocsContent content={activeItemContent} />
                     )}
                 </main>
 
-                {/* Optional Table of Contents for desktop */}
+                {/* Optional Table of Contents for desktop - Static for now or remove if dynamic */}
                 {!isSandbox && (
                     <aside className="w-56 hidden xl:block sticky top-0 pt-8 px-6 overflow-y-auto h-[calc(100vh-7.5rem)]">
                         <h5 className="text-[10px] font-bold text-grey-400 uppercase tracking-widest mb-4">On this page</h5>
                         <ul className="space-y-3 text-xs font-semibold text-grey-500">
-                            <li className="text-primary hover:text-primary transition-colors cursor-pointer">Environment Setup</li>
-                            <li className="hover:text-dark transition-colors cursor-pointer">Installation & Initialization</li>
-                            <li className="hover:text-dark transition-colors cursor-pointer">Next Steps</li>
+                            {/* TODO: Make TOC dynamic based on content headers if possible, or hide */}
+                            <li className="text-primary hover:text-primary transition-colors cursor-pointer">Top</li>
                         </ul>
                     </aside>
                 )}
