@@ -20,8 +20,16 @@
   <script type="text/javascript">
     window.ATL_JQ_PAGE_PROPS = {
       "triggerFunction": function (showCollectorDialog) {
+<<<<<<< HEAD
         // Expose function to global window object for React components
         window.showJiraCollector = showCollectorDialog;
+=======
+        //Requires that jQuery is available! 
+        jQuery("#myCustomTrigger").click(function (e) {
+          e.preventDefault();
+          showCollectorDialog();
+        });
+>>>>>>> 1cb15cffc1e5e66937a2dd665e68a85e90584ec0
       }
     };
   </script>
