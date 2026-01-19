@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const SupportPage = () => {
+    const navigate = useNavigate();
     const [step, setStep] = useState('email'); // email, details, success
     const [formData, setFormData] = useState({
         email: '',
@@ -16,38 +18,41 @@ const SupportPage = () => {
         }
     };
 
+
+
     const handleDetailsSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const res = await fetch('/api/jira', {
+            // Using FormSubmit.co for email delivery
+            const res = await fetch('https://formsubmit.co/ajax/dotory0213@nexon.co.kr', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
                 body: JSON.stringify({
-                    summary: formData.subject,
-                    description: `Category: ${formData.category}\n\n${formData.description}`,
-                    email: formData.email
+                    _subject: `[GameScale Support] ${formData.subject}`, // Custom subject
+                    category: formData.category,
+                    email: formData.email, // Reply-to address
+                    message: formData.description,
+                    _template: 'table' // Pretty email format
                 })
             });
 
             const data = await res.json();
 
             if (!res.ok) {
-                // Include backend "jiraError" for more detail
-                const errorMessage = data.jiraError
-                    ? `Jira Error: ${data.jiraError}`
-                    : (data.error || 'Failed to submit ticket');
-                throw new Error(errorMessage);
+                throw new Error(data.message || 'Failed to send email');
             }
 
-            console.log('Ticket created:', data.key);
-            setStep('success');
+            // Success Alert and Redirect
+            alert('문의가 정상적으로 접수되었습니다.\n빠른 시일 내에 답변 드리겠습니다.');
+            navigate('/');
+
         } catch (error) {
             console.error('Submission error:', error);
-            // Show the detailed error in the alert
-            alert(error.message);
+            alert('접수 중 오류가 발생했습니다: ' + error.message);
         }
     };
 
