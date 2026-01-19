@@ -35,14 +35,19 @@ const SupportPage = () => {
             const data = await res.json();
 
             if (!res.ok) {
-                throw new Error(data.error || 'Failed to submit ticket');
+                // Include backend "jiraError" for more detail
+                const errorMessage = data.jiraError
+                    ? `Jira Error: ${data.jiraError}`
+                    : (data.error || 'Failed to submit ticket');
+                throw new Error(errorMessage);
             }
 
             console.log('Ticket created:', data.key);
             setStep('success');
         } catch (error) {
             console.error('Submission error:', error);
-            alert('Failed to submit ticket: ' + error.message);
+            // Show the detailed error in the alert
+            alert(error.message);
         }
     };
 
