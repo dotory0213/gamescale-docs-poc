@@ -38,9 +38,19 @@ const Navbar = () => {
 
                     {/* CTA Buttons */}
                     <div className="hidden md:flex items-center gap-4">
-                        <Link to="/support" className="text-sm font-semibold text-grey-600 hover:text-primary transition-colors">
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                if (window.showJiraCollector) {
+                                    window.showJiraCollector();
+                                } else {
+                                    console.warn('Jira Collector not loaded');
+                                }
+                            }}
+                            className="text-sm font-semibold text-grey-600 hover:text-primary transition-colors cursor-pointer"
+                        >
                             Support
-                        </Link>
+                        </button>
                         <Link to="/signup" className="px-5 py-2.5 bg-primary hover:bg-primary-dark text-white text-sm font-bold rounded-full transition-all shadow-toss hover:shadow-toss-hover transform hover:-translate-y-0.5">
                             Sign In
                         </Link>
