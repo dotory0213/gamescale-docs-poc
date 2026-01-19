@@ -16,11 +16,34 @@ const SupportPage = () => {
         }
     };
 
-    const handleDetailsSubmit = (e) => {
+    const handleDetailsSubmit = async (e) => {
         e.preventDefault();
-        // Here you would typically send data to backend
-        console.log('Form submitted:', formData);
-        setStep('success');
+
+        try {
+            const res = await fetch('/api/jira', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    summary: formData.subject,
+                    description: `Category: ${formData.category}\n\n${formData.description}`,
+                    email: formData.email
+                })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.error || 'Failed to submit ticket');
+            }
+
+            console.log('Ticket created:', data.key);
+            setStep('success');
+        } catch (error) {
+            console.error('Submission error:', error);
+            alert('Failed to submit ticket: ' + error.message);
+        }
     };
 
     const resetForm = () => {
